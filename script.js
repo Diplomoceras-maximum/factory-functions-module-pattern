@@ -141,3 +141,26 @@ console.log({
 // 1. A private variable or function uses closures to create smaller, dedicated variables and cuntion within a factory function itself, things that do not need to be returned in the object
 // 2. This way the code can be neater with polluting the returned object with unnecessary variables
 // 3. Often you do not need every single function within a factory to be returned with the object
+
+// ##################################################
+//  Prototypal inheritence with factories
+// ##################################################
+
+// 1. Factory functions can utilise inheritence too, for example:
+
+function createPlayer(name, leveel) {
+  const { getReputation, giveReputation } = createUser(name);
+
+  const increaseLevel = () => level++;
+  return { name, getReputation, giveReputation, increaseLevel };
+}
+
+// In this example you can create the User, extract what is needed from it, and re-return whatever is needed, hiding the rest as private variables or functions
+// To extend it, you can use the Object.assign method to add properties, for example:
+
+function createPlayer(name, level) {
+  const user = createUser(name);
+
+  const increaseLevel = () => level++;
+  return Object.assign({}, user, { increaseLevel });
+}
