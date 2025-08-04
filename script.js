@@ -164,3 +164,33 @@ function createPlayer(name, level) {
   const increaseLevel = () => level++;
   return Object.assign({}, user, { increaseLevel });
 }
+
+// ##################################################
+//  The module pattern: IIFEs
+// ##################################################
+
+// 1. Oftentimes, a factory is not needed to produce multiple objects, instead it is used to wrap peices of code together, hiding the variables and functions that you do not need elsewhere as private
+// 2. This is easily achievable by wrapping the factory function in brackets and immediately calling it.
+// 3. This is known as an Immediately Invoked Function Expression or IIFE.
+// 4. This pattern of wrapping a factory inside an IIFE is called the module pattern, example:
+
+const calculator = (function () {
+  const add = (a, b) => a + b;
+  const sub = (a, b) => a - b;
+  const mul = (a, b) => a * b;
+  const div = (a, b) => a / b;
+  return { add, sub, mul, div };
+})();
+
+calculator.add(3, 5); // 8
+calculator.sub(6, 2); // 4
+calculator.mul(14, 5534); // 77476
+
+// The factory function is immediately called with the () at the end, returning the result object stored in the calculator
+
+// === Encapsulating with the module pattern ===
+
+// 1. This doesnt seem useful at the start but makes sense later on in the code
+// 2. Encapsulation means bundling data, code, or somehting into a single unit, with selective access to the things inside that unit itself.
+// 3. This means it doesnt expose everything to the main body of the program, encapsualtion leads to namespacing, which is a technqiue used to avoid naming collisions in programs
+// 4. For example there may be many functions with the same name, instead they can be encapsulated inside a module allowing them to be called from inside that module and therefore the name can be used in more places in the program if wanted
