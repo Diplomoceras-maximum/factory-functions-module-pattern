@@ -81,3 +81,63 @@ console.log(add5(2)); // 7
 // 3. Misuse of the instaceof is another issue. In JS it checks the presence of a constructor's prototype in a object's entire prototype chain - which does nothing to confirm if an object was made with that constructor since the prototype can even be reassigned after the creation of an object
 
 // As a result of these issues, construcotrs have become unpopular in favor of a petter that is similar but address a lot of the issues of constructors, Factory Functions
+
+// ##################################################
+//  Factory functions
+// ##################################################
+
+// 1. These functions work similarly to constructors but with one difference, they use closures.
+// 2. Instead of using the new keyword to create an object, facotry function set up and return the new object when you call the function, they do not use prototypes.
+
+// Example:
+
+// Constructor
+// const User = function (name) {
+//   this.name = name;
+//   this.discordName = "@" + name;
+// };
+
+// Factory function
+// function createUser(name) {
+//   const discordName = "@" + name;
+//   return { name, discordName };
+// }
+
+// They are very similar but factory funnction is just a function and therefore doesnt require a new keyword
+
+// ##################################################
+//  Private variables and functions
+// ##################################################
+
+// 1. On first look it appears that factories return an object, where is the closure?
+// 2. This is where the User factory can be extended to add more variables and introduce "private" ones, for example:
+
+function createUser(name) {
+  const discordName = "@" + name;
+
+  let reputation = 0;
+  const getReputation = () => reputation;
+  const giveReputation = () => reputation++;
+
+  return { name, discordName, getReputation, giveReputation };
+}
+
+const john = createUser("john");
+john.giveReputation();
+john.giveReputation();
+
+console.log({
+  discordName: john.discordName,
+  reputation: john.getReputation(),
+}); // { discordName: "@john", reputation: 2 }
+
+// Summary:
+// 1. The object returned does not contain the reputation variable itself, or any copy of its value
+// 2. Instead, the returned object contains two functions, on that reads the value of the reputation, and one that increases its value by one
+// 3. The reputation variable is what we call a "private" variable, since it cnanot be accessed directly in the object instance, only by the closures that are defined
+
+// === Benefits ===
+
+// 1. A private variable or function uses closures to create smaller, dedicated variables and cuntion within a factory function itself, things that do not need to be returned in the object
+// 2. This way the code can be neater with polluting the returned object with unnecessary variables
+// 3. Often you do not need every single function within a factory to be returned with the object
