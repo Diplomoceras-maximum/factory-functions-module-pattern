@@ -71,3 +71,13 @@ console.log(add5(2)); // 7
 // 4. From the example, add5 is a reference to the resulting function, created when the makeAdding function is executed, thus it has access to the lexical environemnt of the resulting function, which contains the first variable
 
 // This is a crucial behavior of functions, allowing functions to associate and manipulate data anywhere outside of the enclosing function
+
+// ##################################################
+//  The problem with constructors
+// ##################################################
+
+// 1. The biggest problem with constructors is that they dont provide automatic safeguards that prevent them from being used wrong
+// 2. They look like regular JS functions, but do not behave the same - they require the new keyword otherwise complicated errors will be produced that are hard to track down
+// 3. Misuse of the instaceof is another issue. In JS it checks the presence of a constructor's prototype in a object's entire prototype chain - which does nothing to confirm if an object was made with that constructor since the prototype can even be reassigned after the creation of an object
+
+// As a result of these issues, construcotrs have become unpopular in favor of a petter that is similar but address a lot of the issues of constructors, Factory Functions
